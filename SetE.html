@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>ITUE301:AWDF - Open-Book Practical Examination (CSPIT, CHARUSAT)</title>
+<style>
+  :root{
+    --ink:#000000;
+    --accent:#1c3d5e;   /* single additional color, used for text only */
+    --line:#000000;
+    --linegrey:#666666;
+  }
+  *{box-sizing:border-box;}
+  body{font-family:'Segoe UI',Arial,sans-serif;color:var(--ink);max-width:960px;margin:0 auto;padding:24px;line-height:1.55;background:#fff;}
+  h1,h2,h3,h4{color:var(--accent);}
+  .cover{text-align:center;border:2px solid var(--ink);padding:15px 20px;}
+  .cover .uni{font-size:13px;letter-spacing:1px;color:var(--ink);text-transform:uppercase;}
+  .cover .inst{font-size:22px;font-weight:700;margin:4px 0 2px;color:var(--accent);}
+  .cover .dept{font-size:14px;color:var(--ink);}
+  .cover h1{font-size:20px;margin:10px 0 4px;}
+  .cover .sub{font-size:15px;color:var(--ink);}
+  table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13.5px;}
+  th,td{border:1px solid var(--ink);padding:7px 10px;text-align:left;vertical-align:top;}
+  th{font-weight:700;color:var(--accent);}
+  .meta-table td:first-child{width:220px;font-weight:600;}
+  .marks{float:right;border:1px solid var(--ink);font-weight:700;padding:2px 10px;font-size:13px;}
+  .task{border:1px solid var(--ink);border-left:4px solid var(--accent);padding:14px 16px;margin:16px 0;}
+  .task h3{margin:0 0 10px;font-size:15.5px;color:var(--accent);}
+  .task p{margin:6px 0;font-size:13.5px;}
+  .hint{border-left:3px solid var(--accent);padding:8px 12px;font-size:12.5px;margin-top:10px;}
+  .hint b{color:var(--accent);}
+  .req-list{margin:10px 0;padding-left:0;list-style:none;}
+  .req-list li{padding:4px 0 4px 22px;position:relative;font-size:13.5px;}
+  .req-list li:before{content:"–";position:absolute;left:0;font-weight:700;color:var(--accent);}
+  .scen-box{border:1px solid var(--ink);padding:14px 16px;margin:10px 0;font-size:13.8px;}
+  .pillrow span{display:inline-block;margin:3px 8px 3px 0;padding:2px 10px;font-size:12px;border:1px solid var(--ink);}
+  .toc{border:1px solid var(--ink);padding:14px 20px;margin:16px 0;}
+  .toc a{color:var(--accent);text-decoration:none;font-weight:600;}
+  .toc ul{columns:2;font-size:13.5px;}
+  .set-title{border:2px solid var(--ink);border-left:6px solid var(--accent);padding:10px 16px;margin-bottom:6px;}
+  .set-title h2{margin:0;font-size:18px;color:var(--accent);}
+  .set-title .code{font-size:12px;color:var(--ink);}
+  .note{font-size:12px;color:var(--ink);font-style:italic;}
+  .rubric td{font-size:12.8px;}
+  .faculty-page{page-break-before:always;}
+  .footer-strip{font-size:11px;color:var(--ink);text-align:center;border-top:1px solid var(--ink);margin-top:10px;padding-top:6px;}
+  .submit-box{border:1px solid var(--ink);padding:10px 14px;font-size:13px;margin-top:8px;}
+  .submit-box b{color:var(--accent);}
+  code{font-family:Consolas,'Courier New',monospace;font-size:12.6px;}
+  @media print{
+    body{max-width:100%;}
+    .toc{display:none;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ COVER PAGE ============ -->
+<div class="cover">
+  <div class="uni">Charotar University of Science and Technology</div>
+  <div class="inst">Chandubhai S. Patel Institute of Technology (CSPIT), CHARUSAT</div>
+  <div class="dept">Department of Information Technology / Computer Engineering</div>
+  <h1>ITUE301: Advanced Web Development Frameworks</h1>
+  <div class="sub">Open-Book Practical Examination &nbsp;|&nbsp; B.Tech. Semester 5 &nbsp;|&nbsp; AY 2026–27</div>
+</div>
+
+<table class="meta-table">
+  <tr><td>Date</td><td>24 / 08 / 2026</td></tr>
+  <tr><td>Branch</td><td>CE / CSE / IT / AIML</td></tr>
+  <tr><td>Duration</td><td>2 Hours</td></tr>
+  <tr><td>Total Marks</td><td>20 Marks (4 Marks × 5 Tasks)</td></tr>
+  <tr><td>Tech Stack</td><td>React (frontend) + Express.js (backend) + MongoDB with Mongoose</td></tr>
+  <tr><td>Internet</td><td>Permitted for official documentation, MDN, Stack Overflow reference.</td></tr>
+  <tr><td>AI Tools</td><td>Permitted: ChatGPT, GitHub Copilot, Claude, Gemini, etc. may be used. Students must be able to explain every line of submitted code during viva.</td></tr>
+  <tr><td>Code Sharing</td><td>Strictly prohibited: identical submissions across students will be awarded zero.</td></tr>
+</table>
+
+<h3>General Instructions</h3>
+<ol style="font-size:13.5px;">
+  <li>Read the complete question paper before starting implementation. Plan your folder structure first.</li>
+  <li>Attempt all five tasks in your allotted set. Partial implementation earns partial marks: do not leave any task blank.</li>
+  <li>Use React for frontend tasks, Express.js for backend tasks, and MongoDB with Mongoose for database tasks. No other database is permitted.</li>
+  <li>GitHub repository must be public and named exactly: <code>itue301-exam-[roll-number]-[batch]</code> (e.g. <code>itue301-exam-24it045-A</code>).</li>
+  <li>Use a <code>.env</code> file for the MongoDB connection string and PORT. Do not hardcode credentials. Commit a <code>.env.example</code>; never commit the real <code>.env</code>.</li>
+  <li>Backend must start with <code>node server.js</code> or <code>npm start</code>. Document this in <code>README.md</code>.</li>
+  <li>AI code-generation tools are permitted for this exam (see AI Tools row above). Regardless of how the code was produced, you must be able to explain it in viva: code you cannot explain will be marked zero for that task.</li>
+  <li>Sharing code with another student is strictly prohibited. Copying another student's code results in a zero for both students.</li>
+  <li>Include a <code>README.md</code> with project name, frontend/backend run instructions, and MongoDB setup steps.</li>
+  <li>Final submission must include <b>both</b> of the following before the examination window closes: (a) your public GitHub repository link together with the final commit SHA, and (b) the PDF report named as specified in your set. Submit both via the Google Form shared by faculty. Late submissions lose 1 mark per 5 minutes beyond a 5-minute grace period.</li>
+</ol>
+
+<!-- ================= SET E ================= -->
+<div class="setpage" id="setE">
+  <div class="set-title"><h2>SET E: DriveEasy Car Rental System</h2><div class="code">ITUE301 · Open-Book Practical Examination · CSPIT, CHARUSAT · 24/08/2026</div></div>
+
+  <div class="scen-box">
+    <b>Scenario:</b> DriveEasy runs a small self-drive car rental fleet booked entirely through phone calls, causing double-bookings on the same vehicle. Build a booking platform for customers, a fleet manager, and an admin.
+    <br><br>
+    <b>Data Entities</b>:
+    <ul class="req-list">
+      <li><b>Customer</b>: name, email, phone, licenseNumber</li>
+      <li><b>Vehicle</b>: model, type, pricePerDay, available (Boolean)</li>
+      <li><b>Booking</b>: customerId (ref), vehicleId (ref), pickupDate, returnDate, status (reserved | ongoing | completed | cancelled)</li>
+    </ul>
+    <div class="pillrow"><b>User Roles:</b> <span>Customer</span><span>Fleet Manager</span><span>Admin</span></div>
+  </div>
+
+  <h4>Mandatory Requirements</h4>
+  <ul class="req-list">
+    <li>React frontend with at least three distinct pages (Login, Fleet, MyBookings).</li>
+    <li>Client-side routing: Fleet and MyBookings must be protected routes.</li>
+    <li>A reusable <code>VehicleCard</code> component that accepts props and renders vehicle details.</li>
+    <li>Global auth state via useState / useContext or Zustand.</li>
+    <li>Express backend exposing at least 5 REST endpoints at <code>/api/v1/</code>.</li>
+    <li>All protected routes pass through a custom <code>authGuard</code> middleware; global <code>requestLogger</code> applied.</li>
+    <li>MongoDB collections for Customer, Vehicle, and Booking with Mongoose schemas.</li>
+    <li>Schema-level validation (required, enum, min) on all three models.</li>
+    <li>Lazy-loaded route for an Admin Panel using <code>React.lazy</code> + <code>Suspense</code>.</li>
+    <li>API call from React using fetch or Axios; display a loading state while data is fetched.</li>
+  </ul>
+
+  <div class="task">
+    <span class="marks">4 Marks</span>
+    <h3>Task 1: React Component Architecture</h3>
+    <p>Create the basic React frontend for the DriveEasy Car Rental System.</p>
+    <p>Create the following page/components: <code>LoginPage</code>, <code>FleetPage</code>, <code>MyBookingsPage</code>, <code>VehicleCard</code>.</p>
+    <p>Place reusable components inside a suitable <code>/components</code> folder.</p>
+    <p>The <code>VehicleCard</code> component must accept the following props: <code>model</code>, <code>type</code>, <code>pricePerDay</code>, <code>available</code>.</p>
+    <p>Display all four values.</p>
+    <p>If <code>available</code> is false, render a "Not Available" badge instead of a "Book Now" button; if true, render the "Book Now" button.</p>
+    <p>Use props to pass vehicle data from the parent component to <code>VehicleCard</code>.</p>
+    <p>Detailed UI styling is not required. Focus on component structure, composition, and correct use of props.</p>
+    <div class="hint"><b>Hint:</b> a simple ternary inside the component handles the button/badge swap cleanly.</div>
+  </div>
+
+  <div class="task">
+    <span class="marks">4 Marks</span>
+    <h3>Task 2: React Routing and State Management</h3>
+    <p>Configure React Router with the following routes:</p>
+    <table><tr><th>Route</th><th>Component</th></tr>
+      <tr><td><code>/</code></td><td>LoginPage</td></tr>
+      <tr><td><code>/fleet</code></td><td>FleetPage (protected)</td></tr>
+      <tr><td><code>/my-bookings</code></td><td>MyBookingsPage (protected)</td></tr>
+      <tr><td><code>/admin</code></td><td>AdminPanel (lazy-loaded)</td></tr>
+    </table>
+    <p>Create a navigation component containing links to all routes.</p>
+    <p>Navigation must be performed using React Router links without a full-page reload.</p>
+    <p>In FleetPage, create a booking form containing at least: selected vehicle, pickup date, return date.</p>
+    <p>Use <code>useState</code> to manage the form data.</p>
+    <p>At least two state values must be used meaningfully. For example: selected vehicle, pickup date.</p>
+    <p>Display the selected vehicle or another chosen value on the page as the state changes.</p>
+    <p>Implement an <code>AuthContext</code> holding <code>{ customer, token }</code>. A <code>ProtectedRoute</code> wrapper must redirect unauthenticated users to <code>/</code>.</p>
+    <div class="hint"><b>Hint:</b> <code>&lt;Navigate to="/" /&gt;</code> for the redirect; keep the selected vehicle in one piece of state.</div>
+  </div>
+
+  <div class="task">
+    <span class="marks">4 Marks</span>
+    <h3>Task 3: Express REST API + Middleware</h3>
+    <p>Build the Express backend for managing vehicle bookings.</p>
+    <p>Implement the following REST endpoints:</p>
+    <table><tr><th>Method</th><th>Endpoint</th><th>Purpose</th></tr>
+      <tr><td>POST</td><td><code>/api/v1/auth/login</code></td><td>Authenticate customer, issue token</td></tr>
+      <tr><td>GET</td><td><code>/api/v1/vehicles</code></td><td>Return all vehicles (public)</td></tr>
+      <tr><td>POST</td><td><code>/api/v1/bookings</code></td><td>Create a new booking (protected)</td></tr>
+      <tr><td>GET</td><td><code>/api/v1/bookings/my</code></td><td>Return the customer's own bookings (protected)</td></tr>
+      <tr><td>PATCH</td><td><code>/api/v1/bookings/:id/status</code></td><td>Update booking status (protected)</td></tr>
+    </table>
+    <p>Create a custom <code>requestLogger</code> middleware that logs <code>[METHOD] [PATH] [TIMESTAMP]</code> for every request, applied globally.</p>
+    <p>Create an <code>authGuard</code> middleware that validates the Bearer token and returns 401 if missing or invalid, applied to every route except <code>/auth/login</code> and the public vehicle listing.</p>
+    <p>Implement a global error-handling middleware as the last middleware, returning structured JSON instead of a raw error stack.</p>
+    <p>Use appropriate HTTP status codes: 200, 201, 400, 401, 500 as applicable. Test the APIs using Postman or Thunder Client.</p>
+    <div class="hint"><b>Hint:</b> keep the auth check and the booking-creation logic in separate functions so each is easy to explain in viva.</div>
+  </div>
+
+  <div class="task">
+    <span class="marks">4 Marks</span>
+    <h3>Task 4: REST API Consumption in React</h3>
+    <p>Use the Express API developed in Task 3 from the React frontend.</p>
+    <p>In FleetPage, retrieve vehicle information using: <code>GET /api/v1/vehicles</code>.</p>
+    <p>Use fetch or Axios.</p>
+    <p>Use <code>useEffect()</code> so that the API request is made when the component mounts.</p>
+    <p>Maintain three states: <code>vehicles</code>, <code>loading</code>, and <code>error</code>.</p>
+    <p>The page must: 1) Display a loading indicator while the request is in progress. 2) Display a friendly error message if the request fails. 3) Render a grid of <code>VehicleCard</code> components after a successful request.</p>
+    <p>The vehicle information must be rendered from the API response and must not be hardcoded in the React component.</p>
+    <p>Add a client-side type filter (All | Hatchback | Sedan | SUV) applied to the already-fetched array, without triggering a new API request.</p>
+    <div class="hint"><b>Hint:</b> keep the full array in state; derive the filtered list with <code>.filter()</code>.</div>
+  </div>
+
+  <div class="task">
+    <span class="marks">4 Marks</span>
+    <h3>Task 5: MongoDB + Mongoose Schema Design and Validation</h3>
+    <p>Create the Mongoose-based implementation for the DriveEasy database. Connect to MongoDB using Mongoose.</p>
+    <p>Create the following three schemas.</p>
+    <table><tr><th>Schema</th><th>Field Requirement</th></tr>
+      <tr><td>Customer</td><td>name required; email required, unique; licenseNumber required, unique</td></tr>
+      <tr><td>Vehicle</td><td>model required; type required; pricePerDay min 0; available Boolean, default true</td></tr>
+      <tr><td>Booking</td><td>customerId ref Customer; vehicleId ref Vehicle; pickupDate required; returnDate required; status enum, default 'reserved'</td></tr>
+    </table>
+    <p>The Booking status field must use: <code>reserved</code>, <code>ongoing</code>, <code>completed</code>, <code>cancelled</code>.</p>
+    <p>Use Mongoose references for: customerId → Customer, vehicleId → Vehicle.</p>
+    <p><code>POST /api/v1/bookings</code> must check that <code>vehicle.available === true</code> before creating a booking (return 400 if not), create the Booking record, and then set the vehicle's <code>available</code> field to false.</p>
+    <p><code>GET /api/v1/bookings/my</code> must use <code>.populate('customerId', 'name email')</code> and <code>.populate('vehicleId', 'model type')</code>.</p>
+    <p>Connect MongoDB using a connection string stored in <code>.env</code>. For example: <code>MONGO_URI=your_mongodb_connection_string</code>.</p>
+    <p>Demonstrate at least one validation failure, such as booking an already-unavailable vehicle, and return a meaningful JSON error response instead of exposing the raw Mongoose error object.</p>
+    <div class="hint"><b>Hint:</b> a sequential <code>findById</code> check followed by <code>findByIdAndUpdate</code> is acceptable; a Mongoose transaction is a bonus, not a requirement.</div>
+  </div>
+
+  <h4>Submission Requirements</h4>
+  <p style="font-size:13px;">Public GitHub repo <code>itue301-exam-[roll-number]-[batch]</code> with <code>/frontend</code>, <code>/backend</code>, README, <code>.env.example</code>. PDF <code>[RollNo]_SetE_Report.pdf</code> with screenshots: (1) FleetPage with vehicle cards, (2) Postman showing 201 on booking creation, (3) MongoDB showing a saved document.</p>
+  <div class="submit-box"><b>Final Submission (both required):</b> ① GitHub repository link + final commit SHA &nbsp;·&nbsp; ② <code>[RollNo]_SetA_Report.pdf</code>: Upload pdf to Google Classroom / Microsoft Team Assignment before the exam ends.</div>
+</div>
+</body>
+</html>

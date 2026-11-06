@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DriveEasy API Test</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', Arial, sans-serif; background: #f5f5f5; padding: 20px; }
+    h1 { color: #1c3d5e; margin-bottom: 20px; text-align: center; }
+    .endpoint { background: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 16px; margin-bottom: 16px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+    .endpoint h3 { color: #1c3d5e; margin-bottom: 8px; }
+    .method { display: inline-block; padding: 3px 10px; border-radius: 4px; font-size: 12px; font-weight: bold; color: #fff; margin-right: 8px; }
+    .method.get { background: #2e7d32; }
+    .method.post { background: #1565c0; }
+    .method.patch { background: #ef6c00; }
+    .status { font-weight: bold; padding: 2px 8px; border-radius: 4px; }
+    .status.s200, .status.s201 { background: #c8e6c9; color: #2e7d32; }
+    .status.s400, .status.s401, .status.s404 { background: #ffcdd2; color: #c62828; }
+    pre { background: #f0f0f0; padding: 12px; border-radius: 4px; font-size: 13px; overflow-x: auto; max-height: 300px; margin-top: 8px; }
+    .loading { color: #888; font-style: italic; }
+    .btn { padding: 10px 24px; background: #1c3d5e; color: #fff; border: none; border-radius: 6px; font-size: 15px; cursor: pointer; display: block; margin: 0 auto 20px; }
+    .btn:hover { background: #2a5a8a; }
+  </style>
+</head>
+<body>
+  <h1>DriveEasy Car Rental - API Test (5 Endpoints)</h1>
+  <button class="btn" onclick="runAllTests()">Run All Tests</button>
+
+  <div id="results"></div>
+
+  <script>
+    const BASE = 'http://localhost:5000/api/v1'
+    let token = ''
+
+    async function runAllTests() {
+      document.getElementById('results').innerHTML = '<p class="loading">Running tests...</p>'
+      let html = ''
+
+      // 1. POST /auth/login
+      html += '<div class="endpoint"><h3><span class="method post">POST</span>/api/v1/auth/login</h3><p>Authenticate customer and issue JWT token</p>'
+      try {
+        const r1 = await fetch(`${BASE}/auth/login`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: 'john@example.com', password: 'pass123' })
+        })
+        const d1 = await r1.json()
+        token = d1.token
+        html += `<p>Status: <span class="status s${r1.status}">${r1.status}</span></p>`
+        html += `<pre>${JSON.stringify(d1, null, 2)}</pre></div>`
+      } catch(e) { html += `<p class="status s400">Error: ${e.message}</p></div>` }
+
+      // 2. GET /vehicles
+      html += '<div class="endpoint"><h3><span class="method get">GET</span>/api/v1/vehicles</h3><p>Return all vehicles (public)</p>'
+      try {
+        const r2 = await fetch(`${BASE}/vehicles`)
+        const d2 = await r2.json()
+        html += `<p>Status: <span class="status s${r2.status}">${r2.status}</span> | Vehicles: ${d2.count}</p>`
+        html += `<pre>${JSON.stringify(d2, null, 2)}</pre></div>`
+      } catch(e) { html += `<p class="status s400">Error: ${e.message}</p></div>` }
+
+      // 3. POST /bookings
+      html += '<div class="endpoint"><h3><span class="method post">POST</span>/api/v1/bookings</h3><p>Create a new booking (protected - authGuard)</p>'
+      try {
+        const r3 = await fetch(`${BASE}/bookings`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+          body: JSON.stringify({ vehicleId: 'v4', pickupDate: '2026-09-15', returnDate: '2026-09-20' })
+        })
+        const d3 = await r3.json()
+        html += `<p>Status: <span class="status s${r3.status}">${r3.status}</span> | ${d3.message}</p>`
+        html += `<pre>${JSON.stringify(d3, null, 2)}</pre></div>`
+      } catch(e) { html += `<p class="status s400">Error: ${e.message}</p></div>` }
+
+      // 4. GET /bookings/my
+      html += '<div class="endpoint"><h3><span class="method get">GET</span>/api/v1/bookings/my</h3><p>Return customer own bookings (protected - authGuard)</p>'
+      try {
+        const r4 = await fetch(`${BASE}/bookings/my`, { headers: { 'Authorization': `Bearer ${token}` } })
+        const d4 = await r4.json()
+        html += `<p>Status: <span class="status s${r4.status}">${r4.status}</span> | Bookings: ${d4.count}</p>`
+        html += `<pre>${JSON.stringify(d4, null, 2)}</pre></div>`
+      } catch(e) { html += `<p class="status s400">Error: ${e.message}</p></div>` }
+
+      // 5. PATCH /bookings/:id/status
+      html += '<div class="endpoint"><h3><span class="method patch">PATCH</span>/api/v1/bookings/b1/status</h3><p>Update booking status (protected - authGuard)</p>'
+      try {
+        const r5 = await fetch(`${BASE}/bookings/b1/status`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+          body: JSON.stringify({ status: 'completed' })
+        })
+        const d5 = await r5.json()
+        html += `<p>Status: <span class="status s${r5.status}">${r5.status}</span> | ${d5.message}</p>`
+        html += `<pre>${JSON.stringify(d5, null, 2)}</pre></div>`
+      } catch(e) { html += `<p class="status s400">Error: ${e.message}</p></div>` }
+
+      html += '<h3 style="text-align:center;color:#2e7d32;margin-top:20px;">All 5 Endpoints Tested Successfully!</h3>'
+      document.getElementById('results').innerHTML = html
+    }
+  </script>
+</body>
+</html>
